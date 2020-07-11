@@ -3,10 +3,36 @@
 echo "Welcome to Snake and Ladder"
 
 playerPosition=0
+currentPosition=$playerPosition
 
 dieRoll() {
 	dieNum=$(( RANDOM % 6 + 1 ))
 	echo "Die Number is : $dieNum"
 }
 
-dieRoll
+checkOption() {
+	option=$(( RANDOM%3 ))
+	forNoPlay=0
+	forLadder=1
+	forSnake=2
+	dieRoll
+	if [ $option -eq $forLadder ]
+	then
+		currentPosition=$(( $currentPosition + $dieNum))
+		break
+	elif [ $option -eq $forSnake ]
+	then
+		currentPosition=$(( $currentPosition - $dieNum ))
+	elif [ $currentPosition -lt 0 ]
+	then
+			currentPosition=$playerPosition
+	break
+	else
+		currentPosition=$currentPosition
+		break
+	fi
+
+	echo "Position of Player : $currentPosition"
+}
+
+checkOption
