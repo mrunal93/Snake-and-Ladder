@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 echo "Welcome to Snake and Ladder"
 
@@ -35,11 +35,26 @@ checkOption() {
 	echo "Position of Player : $currentPosition"
 }
 
+checkStatus() {
+	 if [ $currentPosition -eq $winPosition ]
+         then
+         	echo "Player Won The game"
+         elif [ $currentPosition -gt $winPosition ]
+         then
+                currentPosition=$(( $currentPosition - $dieNum ))
+         else
+                checkOption
+         fi
+echo "Player Game position : $currentPosition"
+
+}
+
 winningPosition() {
 	winPosition=100
-	while (( $currentPosition <= $winPosition ))
+	while (( $currentPosition < $winPosition ))
 	do
-		checkOption
+
+		checkStatus
 	done
 }
 
