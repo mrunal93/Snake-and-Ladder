@@ -19,7 +19,7 @@ checkOption() {
 	if [ $option -eq $forLadder ]
 	then
 		currentPosition=$(( $currentPosition + $dieNum))
-		break
+
 	elif [ $option -eq $forSnake ]
 	then
 		currentPosition=$(( $currentPosition - $dieNum ))
@@ -29,10 +29,18 @@ checkOption() {
 	break
 	else
 		currentPosition=$currentPosition
-		break
+
 	fi
 
 	echo "Position of Player : $currentPosition"
 }
 
-checkOption
+winningPosition() {
+	winPosition=100
+	while (( $currentPosition <= $winPosition ))
+	do
+		checkOption
+	done
+}
+
+winningPosition
