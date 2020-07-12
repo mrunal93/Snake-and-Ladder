@@ -4,6 +4,8 @@ echo "Welcome to Snake and Ladder"
 
 playerPosition=0
 currentPosition=$playerPosition
+declare -A rollAndPosition
+roll=1
 
 dieRoll() {
 	dieNum=$(( RANDOM % 6 + 1 ))
@@ -32,7 +34,7 @@ checkOption() {
 
 	fi
 
-	echo "Position of Player : $currentPosition"
+	#echo "Position of Player : $currentPosition"
 }
 
 checkStatus() {
@@ -53,9 +55,11 @@ winningPosition() {
 	winPosition=100
 	while (( $currentPosition < $winPosition ))
 	do
-
+		player=$((roll++))
+#		rollAndPosition["$player"] = $currentPosition
 		checkStatus
 	done
+	echo -e "------------------ \n================= \nNumber of time Die Rolls : $player \n========================= \n--------------------------"
 }
 
 winningPosition
