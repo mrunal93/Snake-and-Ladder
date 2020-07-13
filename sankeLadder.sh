@@ -1,82 +1,79 @@
-
 #!/bin/bash
 
 echo "Welcome to Snake and Ladder"
 
-playerPosition=0
-currentPosition=$playerPosition
-SECOND_PLAYER=0
-currentPlayer2=$SECOND_PLAYER
-declare -A rollAndPosition
+PLAYER_POSITION=0
+currentPosition=$PLAYER_POSITION
+PLAYER=2
 roll=1
+WIN_POSITION=100
 
 dieRoll() {
-	dieNum=$(( RANDOM % 6 + 1 ))
-	echo "Die Number: $dieNum"
+        dieNum=$(( RANDOM % 6 + 1 ))
 }
 checkOption() {
         option=$(( RANDOM%3 ))
-        forNoPlay=0
-        forLadder=1
-        forSnake=2
-        if [ $option -eq $forLadder ]
-        then
-                dieRoll
+        FOR_NO_PLAY=2
+        FOR_LADDER=0
+        FOR_SNAKE=1
+        dieRoll
+        case $option in
+        $FOR_LADDER)
                 currentPosition=$(( $currentPosition + $dieNum))
-                dieRoll
-                currentPlayer2=$(($currentPlayer2 + $dieNum))
-        elif [ $option -eq $forSnake ]
-        then
-                dieRoll
+                if [ $currentPosition -gt $WIN_POSITION ]
+                then
+                        currentPosition=$(( $currentPosition - $dieNum ))
+                fi
+                ;;
+
+        $FOR_SNAKE)
                 currentPosition=$(( $currentPosition - $dieNum ))
-                dieRoll
-                currentPlayer2=$(($currentPlayer2 - $dieNum))
+                if [ $currentPosition -lt $PLAYER_POSITION  ]
+                then
+                        currentPosition=$(( $currentPosition + $dieNum ))
+                fi
 
-        elif [ $currentPosition -lt 0 ]
-        then
-                        dieRoll
-                        currentPosition=$playerPosition
-                        dieRoll
-                        currentPlayer2=$SECOND_PLAYER
-        break
-        else
-                currentPosition=$currentPosition
-                currentPlayer2=$SECOND_PLAYER
-
-
-        fi
+                ;;
+        $FOR_NO_PLAY)
+                        currentPosition=$(($currentPosition + 0 ))
+                ;;
+        esac
+        echo "Current Position of Player $playerNo : $currentPosition"
 }
 
 checkStatus() {
-         if [ $currentPosition -eq $winPosition ]
+        checkOption
+        ((roll++))
+	 if [ $currentPosition -eq $WIN_POSITION ]
          then
-                echo "Player1 Won"
-                break
-        elif [ $currentPlayer2 -eq $winPosition ]
-         then
-                echo "Player2 Won"
-                break
-         elif [ $currentPosition -gt $winPosition ]
-         then
-                currentPosition=$(( $currentPosition - $dieNum ))
-         else
-                checkOption
-         fi
-	echo -e "Player-1 Game position : $currentPosition \nPlayer-2 Game Position: $currentPlayer2"
+                echo "Reached $currentPosition"
+        elif [ $currentPosition -eq $PLAYER_POSITION ]
+        then
+                currentPosition=$PLAYER_POSITION
+        fi
+        echo -e "------------------ \nNumber of time Die Rolls : $roll \n--------------------------"
 
 }
 
 winningPosition() {
-        winPosition=100
-        while (( $currentPosition < $winPosition && $currentPlayer2 < $winPosition ))
+        cheaking=1
+         while [ $cheaking -eq 1 ]
         do
-                player=$((roll++))
-                checkStatus
+                for (( playerNo=1; playerNo<=$PLAYER; playerNo++ ))
+                do
+                        MultiPlayer[$playerNo]=$PLAYER_POSITION
+                        echo " playing $playerNo"
+                        checkStatus ${multiPlayer[$playerNo]}
+                        multiPlayer[$playerNo]=$currentPosition
+                                if [ ${multiPlayer[$playerNo]} -eq $WIN_POSITION ]
+                                then
+                                        echo -e "------------------------ \n======================== \nPlayer no.$playerNo has won the game Won \n----------------------- \n===================>"
+                                        cheaking=0
+                                        break
+                                fi
+                done
         done
-        echo -e "------------------ \n================= \nNumber of time Die Rolls : $player \n========================= \n--------------------------"
 }
-
-
+checkStatus
 winningPosition
-
 
