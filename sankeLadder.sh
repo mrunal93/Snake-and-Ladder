@@ -2,5 +2,6 @@
 
 echo "Welcome to Snake and Ladder"
 
-playerPosition=0
+PLAYER_POSITION=0
+currentPosition=$PLAYER_POSITION
 
