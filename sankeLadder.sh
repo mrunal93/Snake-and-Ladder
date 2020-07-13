@@ -2,9 +2,9 @@
 
 echo "Welcome to Snake and Ladder"
 
-playerPosition=0
-currentPosition=$playerPosition
-
+PLAYER_POSITION=0
+currentPosition=$PLAYER_POSITION
+WIN_POSITION=100
 dieRoll() {
 	dieNum=$(( RANDOM % 6 + 1 ))
 	echo "Die Number is : $dieNum"
@@ -12,32 +12,43 @@ dieRoll() {
 
 checkOption() {
 	option=$(( RANDOM%3 ))
-	forNoPlay=0
-	forLadder=1
-	forSnake=2
-	dieRoll
-	if [ $option -eq $forLadder ]
-	then
-		currentPosition=$(( $currentPosition + $dieNum))
+        FOR_NO_PLAY=2
+        FOR_LADDER=0
+        FOR_SNAKE=1
+        dieRoll
+        case $option in
+        $FOR_LADDER)
+                currentPosition=$(( $currentPosition + $dieNum))
+                ;;
 
-	elif [ $option -eq $forSnake ]
-	then
-		currentPosition=$(( $currentPosition - $dieNum ))
-	elif [ $currentPosition -lt 0 ]
-	then
-			currentPosition=$playerPosition
-	break
-	else
-		currentPosition=$currentPosition
+        $FOR_SNAKE)
+                currentPosition=$(( $currentPosition - $dieNum ))
 
-	fi
-
-	echo "Position of Player : $currentPosition"
+                ;;
+        $FOR_NO_PLAY)
+                        currentPosition=$(( $currentPosition + 0 ))
+                ;;
+        esac
+        echo "Current Position of Player : $currentPosition"
 }
 
+
+#	while (( true ))
+#	do
+#		checkOption
+#		if [ $currentPosition -eq $WIN_POSITION ]
+#		then
+#			winPosition=$currentPosition
+#			break
+#		elif [ $currentPosition -lt $PLAYER_POSITION ]
+#		then
+#			echo
+#		fi
+#	done
+#	echo "Current Position= $currentPosition"
+
 winningPosition() {
-	winPosition=100
-	while (( $currentPosition <= $winPosition ))
+	while(( $currentPosition <= $WIN_POSITION ))
 	do
 		checkOption
 	done
