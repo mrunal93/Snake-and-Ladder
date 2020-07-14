@@ -24,6 +24,7 @@ checkOption() {
                 then
                         currentPosition=$(( $currentPosition - $dieNum ))
                 fi
+		checkOption
                 ;;
 
         $FOR_SNAKE)
