@@ -62,7 +62,7 @@ winningPosition() {
         do
                 for (( playerNo=1; playerNo<=$PLAYER; playerNo++ ))
                 do
-                        MultiPlayer[$playerNo]=$PLAYER_POSITION
+                        multiPlayer[$playerNo]=$PLAYER_POSITION
                         echo " playing $playerNo"
                         checkStatus ${multiPlayer[$playerNo]}
                         multiPlayer[$playerNo]=$currentPosition
