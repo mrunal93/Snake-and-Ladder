@@ -11,6 +11,22 @@ WIN_POSITION=100
 dieRoll() {
         dieNum=$(( RANDOM % 6 + 1 ))
 }
+ladder() {
+	if [ $currentPosition -gt $WIN_POSITION ]
+        then
+        currentPosition=$(( $currentPosition - $dieNum ))
+        fi
+
+}
+
+snake(){
+	 if [ $currentPosition -lt $PLAYER_POSITION  ]
+         then
+         currentPosition=$(( $currentPosition + $dieNum ))
+         fi
+
+}
+
 checkOption() {
         option=$(( RANDOM%3 ))
         FOR_NO_PLAY=2
@@ -20,20 +36,13 @@ checkOption() {
         case $option in
         $FOR_LADDER)
                 currentPosition=$(( $currentPosition + $dieNum))
-                if [ $currentPosition -gt $WIN_POSITION ]
-                then
-                        currentPosition=$(( $currentPosition - $dieNum ))
-                fi
+		ladder
 		checkOption
                 ;;
 
         $FOR_SNAKE)
                 currentPosition=$(( $currentPosition - $dieNum ))
-                if [ $currentPosition -lt $PLAYER_POSITION  ]
-                then
-                        currentPosition=$(( $currentPosition + $dieNum ))
-                fi
-
+		snake
                 ;;
         $FOR_NO_PLAY)
                         currentPosition=$(($currentPosition + 0 ))
